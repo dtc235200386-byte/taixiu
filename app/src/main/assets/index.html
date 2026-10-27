@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TÀI XỈU VIP - CASINO ĐỎ ĐEN</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="casino-container">
+        <!-- Top Navigation / Header -->
+        <header class="casino-header">
+            <div class="user-info" id="user-info-box" title="Bấm để mở Quản lý Tài Khoản">
+                <div class="avatar-box">
+                    <span class="crown-icon" id="crown-icon">👑</span>
+                    <svg class="avatar-img" id="user-avatar" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="48" fill="#4A0000" stroke="#FFD700" stroke-width="4"/>
+                        <circle cx="50" cy="38" r="18" fill="#FFD700"/>
+                        <path d="M 22 82 C 22 62, 78 62, 78 82 Z" fill="#FFD700"/>
+                    </svg>
+                </div>
+                <div class="user-details">
+                    <div class="username-row">
+                        <span class="username" id="username-display">admin</span>
+                        <span class="badge-admin" id="user-badge">ADMIN</span>
+                    </div>
+                    <div class="balance-row">
+                        <span class="balance-label">Số dư:</span>
+                        <span class="balance-amount" id="user-balance">VÔ HẠN (∞ VNĐ)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn-deposit" id="btn-open-deposit">
+                    <span class="icon">💳</span>
+                    <span class="text">NẠP TIỀN</span>
+                </button>
+                <button class="btn-auth" id="btn-open-auth">
+                    <span class="icon">👤</span>
+                    <span class="text" id="btn-auth-text">TÀI KHOẢN</span>
+                </button>
+                <button class="btn-admin-panel" id="btn-open-admin">
+                    <span class="icon">⚙️</span>
+                    <span class="text">ADMIN</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- PROMINENT TOP QUICK ACTION BAR (DỄ THẤY TRÊN MỌI MÀN HÌNH) -->
+        <div class="top-quick-bar">
+            <button class="top-quick-btn btn-deposit-large" id="btn-quick-deposit">
+                <span class="icon">💳</span>
+                <span>NẠP TIỀN TỰ ĐỘNG</span>
+            </button>
+            <button class="top-quick-btn btn-auth-large" id="btn-quick-auth">
+                <span class="icon">🔐</span>
+                <span id="quick-auth-label">ĐĂNG NHẬP / ĐĂNG KÝ</span>
+            </button>
+            <button class="top-quick-btn btn-admin-large" id="btn-quick-admin-tool">
+                <span class="icon">⚙️</span>
+                <span>ADMIN TOOL</span>
+            </button>
+        </div>
+
+        <!-- Main Game Table -->
+        <main class="game-table">
+            <!-- Round Info Bar -->
+            <div class="round-bar">
+                <div class="round-id">Phiên: <span id="round-number">#888888</span></div>
+                <div class="game-status" id="game-status-text">ĐANG CHỜ ĐẶT CƯỢC</div>
+            </div>
+
+            <!-- Timer Display -->
+            <div class="timer-section">
+                <div class="timer-circle" id="timer-circle">
+                    <svg class="timer-svg" viewBox="0 0 100 100">
+                        <circle class="timer-path-background" cx="50" cy="50" r="45"></circle>
+                        <circle class="timer-path-remaining" id="timer-path" cx="50" cy="50" r="45" stroke-dasharray="283" stroke-dashoffset="0"></circle>
+                    </svg>
+                    <div class="timer-number" id="timer-text">30</div>
+                </div>
+            </div>
+
+            <!-- Bowl & Dice Area (Bát Úp & Xúc Xắc) -->
+            <div class="table-center">
+                <div class="plate-container">
+                    <div class="plate">
+                        <!-- 3 Dice inside plate -->
+                        <div class="dice-wrapper" id="dice-wrapper">
+                            <div class="dice" id="dice-1" data-value="1">
+                                <div class="dot dot-5"></div>
+                            </div>
+                            <div class="dice" id="dice-2" data-value="3">
+                                <div class="dot dot-5"></div>
+                            </div>
+                            <div class="dice" id="dice-3" data-value="5">
+                                <div class="dot dot-5"></div>
+                            </div>
+                        </div>
+
+                        <!-- Result Overlay text when opened -->
+                        <div class="result-overlay hidden" id="result-overlay">
+                            <div class="sum-badge" id="sum-badge">12</div>
+                            <div class="result-title" id="result-title">TÀI</div>
+                        </div>
+
+                        <!-- Covered Bowl (Bát Úp) -->
+                        <div class="bowl" id="bowl">
+                            <div class="bowl-handle"></div>
+                            <div class="bowl-pattern"></div>
+                            <div class="bowl-dragon">🐉</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reveal Bowl Button -->
+                <button class="btn-reveal hidden" id="btn-reveal">
+                    <span>✨ MỞ BÁT ✨</span>
+                </button>
+            </div>
+
+            <!-- Betting Areas: XỈU (1-10) vs TÀI (11-18) -->
+            <div class="betting-board">
+                <!-- Box XỈU -->
+                <div class="bet-box box-xiu" id="box-xiu">
+                    <div class="bet-header">
+                        <h2 class="bet-title">XỈU</h2>
+                        <span class="bet-range">(1 - 10)</span>
+                    </div>
+                    <div class="bet-stats">
+                        <div class="total-pool"><span id="xiu-total-money">0</span> VNĐ</div>
+                        <div class="total-players"><span id="xiu-total-players">0</span> người đặt</div>
+                    </div>
+                    <div class="my-bet-info">
+                        Cược của bạn: <span class="my-amount" id="my-xiu-bet">0</span> VNĐ
+                    </div>
+                    <div class="bet-rate">1 ĂN 1</div>
+                </div>
+
+                <!-- VS Divider -->
+                <div class="vs-divider">
+                    <div class="vs-circle">VS</div>
+                </div>
+
+                <!-- Box TÀI -->
+                <div class="bet-box box-tai" id="box-tai">
+                    <div class="bet-header">
+                        <h2 class="bet-title">TÀI</h2>
+                        <span class="bet-range">(11 - 18)</span>
+                    </div>
+                    <div class="bet-stats">
+                        <div class="total-pool"><span id="tai-total-money">0</span> VNĐ</div>
+                        <div class="total-players"><span id="tai-total-players">0</span> người đặt</div>
+                    </div>
+                    <div class="my-bet-info">
+                        Cược của bạn: <span class="my-amount" id="my-tai-bet">0</span> VNĐ
+                    </div>
+                    <div class="bet-rate">1 ĂN 1</div>
+                </div>
+            </div>
+
+            <!-- Chip Selector Section (5k, 50k, 100k, 200k, 500k) -->
+            <div class="chip-section">
+                <div class="chip-title">CHỌN MỨC ĐẶT CƯỢC:</div>
+                <div class="chip-list">
+                    <button class="chip chip-5k selected" data-value="5000">
+                        <span class="chip-inner">5K</span>
+                    </button>
+                    <button class="chip chip-50k" data-value="50000">
+                        <span class="chip-inner">50K</span>
+                    </button>
+                    <button class="chip chip-100k" data-value="100000">
+                        <span class="chip-inner">100K</span>
+                    </button>
+                    <button class="chip chip-200k" data-value="200000">
+                        <span class="chip-inner">200K</span>
+                    </button>
+                    <button class="chip chip-500k" data-value="500000">
+                        <span class="chip-inner">500K</span>
+                    </button>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-action btn-clear" id="btn-clear-bet">HỦY CƯỢC</button>
+                    <button class="btn-action btn-double" id="btn-double-bet">GẤP ĐÔI</button>
+                    <button class="btn-action btn-allin" id="btn-allin-bet">TẤT TAY</button>
+                </div>
+            </div>
+
+            <!-- History Road (Soi Cầu) -->
+            <div class="history-section">
+                <div class="history-header">
+                    <span>📊 LỊCH SỬ CẦU (20 VÁN GẦN NHẤT)</span>
+                    <div class="history-summary">
+                        <span class="count-tai">Tài: <b id="stat-tai-count">0</b></span> |
+                        <span class="count-xiu">Xỉu: <b id="stat-xiu-count">0</b></span>
+                    </div>
+                </div>
+                <div class="history-list" id="history-list">
+                    <!-- History items dynamically inserted here -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Live Chat & Feed Footer -->
+        <footer class="casino-footer">
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="chat-msg system"><b>Hệ thống:</b> Chào mừng bạn đến với TÀI XỈU 3D VIP! Chúc bạn may mắn!</div>
+                </div>
+                <div class="chat-input-row">
+                    <input type="text" id="chat-input" placeholder="Nhập tin nhắn tán gẫu...">
+                    <button id="btn-send-chat">GỬI</button>
+                </div>
+            </div>
+        </footer>
+
+        <!-- MODAL 1: LOGIN & REGISTER (ĐĂNG NHẬP / ĐĂNG KÝ) -->
+        <div class="modal-overlay hidden" id="auth-modal">
+            <div class="modal-content auth-modal-content">
+                <div class="modal-header">
+                    <h3>🔐 ĐĂNG NHẬP / ĐĂNG KÝ TÀI KHOẢN</h3>
+                    <button class="btn-close-modal" id="btn-close-auth">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <!-- Auth Tabs -->
+                    <div class="auth-tabs">
+                        <button class="tab-btn active" id="tab-login-btn">🔑 ĐĂNG NHẬP</button>
+                        <button class="tab-btn" id="tab-register-btn">📝 ĐĂNG KÝ MỚI (+100K)</button>
+                    </div>
+
+                    <!-- LOGIN FORM -->
+                    <form class="auth-form" id="login-form">
+                        <div class="input-group">
+                            <label>Tên đăng nhập:</label>
+                            <input type="text" id="login-username" placeholder="Nhập tên tài khoản..." required value="admin">
+                        </div>
+                        <div class="input-group">
+                            <label>Mật khẩu:</label>
+                            <input type="password" id="login-password" placeholder="Nhập mật khẩu..." required value="hvk@123">
+                        </div>
+                        <button type="submit" class="btn-auth-submit">ĐĂNG NHẬP NGAY</button>
+
+                        <div class="auth-divider"><span>HOẶC</span></div>
+
+                        <button type="button" class="btn-quick-admin" id="btn-quick-admin-login">
+                            👑 ĐĂNG NHẬP ADMIN VIP (VÔ HẠN TIỀN)
+                        </button>
+                    </form>
+
+                    <!-- REGISTER FORM -->
+                    <form class="auth-form hidden" id="register-form">
+                        <div class="input-group">
+                            <label>Tên tài khoản mới:</label>
+                            <input type="text" id="reg-username" placeholder="Tên đăng nhập (ví dụ: DaiGia_888)" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Mật khẩu:</label>
+                            <input type="password" id="reg-password" placeholder="Tạo mật khẩu an toàn..." required>
+                        </div>
+                        <div class="input-group">
+                            <label>Xác nhận mật khẩu:</label>
+                            <input type="password" id="reg-confirm-password" placeholder="Nhập lại mật khẩu..." required>
+                        </div>
+                        <div class="input-group">
+                            <label>Số điện thoại / Mã giới thiệu (nhận +100k):</label>
+                            <input type="text" id="reg-phone" placeholder="Nhập SĐT để xác nhận thưởng...">
+                        </div>
+                        <button type="submit" class="btn-auth-submit btn-reg">TẠO TÀI KHOẢN MỚI (+100K)</button>
+                    </form>
+
+                    <!-- LOGGED IN USER INFO -->
+                    <div class="logged-in-box hidden" id="logged-in-box">
+                        <div class="user-card-detail">
+                            <div class="avatar-large">
+                                <svg class="avatar-img" id="detail-avatar" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="48" fill="#4A0000" stroke="#FFD700" stroke-width="4"/>
+                                    <circle cx="50" cy="38" r="18" fill="#FFD700"/>
+                                    <path d="M 22 82 C 22 62, 78 62, 78 82 Z" fill="#FFD700"/>
+                                </svg>
+                            </div>
+                            <div class="detail-info">
+                                <h4 id="detail-username">admin</h4>
+                                <p>Cấp độ: <span class="vip-level">VIP 99</span></p>
+                                <p>Số dư: <span class="vip-balance" id="detail-balance">∞ VNĐ</span></p>
+                            </div>
+                        </div>
+                        <button class="btn-logout" id="btn-logout">🚪 ĐĂNG XUẤT TÀI KHOẢN</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL 2: DEPOSIT MONEY (NẠP TIỀN) -->
+        <div class="modal-overlay hidden" id="deposit-modal">
+            <div class="modal-content deposit-modal-content">
+                <div class="modal-header">
+                    <h3>💳 NẠP TIỀN TÀI KHOẢN CASINO</h3>
+                    <button class="btn-close-modal" id="btn-close-deposit">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <!-- Deposit Tabs -->
+                    <div class="deposit-tabs">
+                        <button class="dep-tab-btn active" data-tab="bank">🏦 NGÂN HÀNG / VIETQR</button>
+                        <button class="dep-tab-btn" data-tab="card">📱 THẺ CÀO</button>
+                        <button class="dep-tab-btn" data-tab="instant">⚡ NẠP NHANH DEMO</button>
+                    </div>
+
+                    <!-- BANK / VIETQR DEPOSIT -->
+                    <div class="dep-tab-content" id="dep-bank-content">
+                        <div class="bank-info-card">
+                            <div class="bank-header">
+                                <span class="bank-logo">🏦 NGÂN HÀNG BIDV</span>
+                                <span class="badge-fast">CỘNG TIỀN TỰ ĐỘNG 24/7</span>
+                            </div>
+                            <div class="bank-row">
+                                <span class="label">Số tài khoản:</span>
+                                <span class="value highlight" id="bank-acc-num">8864496790</span>
+                                <button class="btn-copy" onclick="navigator.clipboard.writeText('8864496790'); alert('Đã sao chép số tài khoản BIDV!');">SAO CHÉP</button>
+                            </div>
+                            <div class="bank-row">
+                                <span class="label">Chủ tài khoản:</span>
+                                <span class="value">HUYNH VAN KHAI</span>
+                            </div>
+                            <div class="bank-row">
+                                <span class="label">Nội dung chuyển:</span>
+                                <span class="value highlight" id="bank-content-text">NAP ADMIN</span>
+                            </div>
+                        </div>
+
+                        <div class="qr-code-box">
+                            <div class="qr-mock">
+                                <div class="qr-pattern"></div>
+                                <div class="qr-text">BIDV VIETQR 24/7</div>
+                            </div>
+                            <p class="qr-hint">Mở app Ngân hàng BIDV hoặc MoMo quét mã QR để chuyển khoản nhanh</p>
+                        </div>
+                    </div>
+
+                    <!-- SCRATCH CARD DEPOSIT -->
+                    <div class="dep-tab-content hidden" id="dep-card-content">
+                        <form id="card-deposit-form">
+                            <div class="input-group">
+                                <label>Chọn nhà mạng:</label>
+                                <select id="card-carrier" class="custom-select">
+                                    <option value="viettel">Viettel (Khuyên dùng)</option>
+                                    <option value="vinaphone">Vinaphone</option>
+                                    <option value="mobifone">Mobifone</option>
+                                    <option value="zing">Zing Card</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>Mệnh giá thẻ:</label>
+                                <select id="card-amount" class="custom-select">
+                                    <option value="20000">20,000 VNĐ</option>
+                                    <option value="50000">50,000 VNĐ</option>
+                                    <option value="100000" selected>100,000 VNĐ</option>
+                                    <option value="200000">200,000 VNĐ</option>
+                                    <option value="500000">500,000 VNĐ</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>Mã Thẻ (PIN):</label>
+                                <input type="text" id="card-pin" placeholder="Nhập mã pin dưới lớp tráng..." required>
+                            </div>
+                            <div class="input-group">
+                                <label>Số Seri thẻ:</label>
+                                <input type="text" id="card-seri" placeholder="Nhập số seri ghi trên thẻ..." required>
+                            </div>
+                            <button type="submit" class="btn-auth-submit">NẠP THẺ CÀO NGAY</button>
+                        </form>
+                    </div>
+
+                    <!-- INSTANT DEMO DEPOSIT -->
+                    <div class="dep-tab-content hidden" id="dep-instant-content">
+                        <p class="instant-desc">Chọn gói tiền muốn nạp tức thì vào tài khoản để trải nghiệm cược:</p>
+                        <div class="quick-pack-grid">
+                            <button class="pack-btn" data-add="100000">
+                                <span class="pack-amount">+100,000đ</span>
+                                <span class="pack-tag">Gói Tập Chơi</span>
+                            </button>
+                            <button class="pack-btn" data-add="500000">
+                                <span class="pack-amount">+500,000đ</span>
+                                <span class="pack-tag">Gói Phổ Thông</span>
+                            </button>
+                            <button class="pack-btn highlight" data-add="2000000">
+                                <span class="pack-amount">+2,000,000đ</span>
+                                <span class="pack-tag">🔥 Gói HOT</span>
+                            </button>
+                            <button class="pack-btn vip" data-add="10000000">
+                                <span class="pack-amount">+10,000,000đ</span>
+                                <span class="pack-tag">👑 Gói Đại Gia</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- RECENT DEPOSIT HISTORY -->
+                    <div class="deposit-history-box">
+                        <div class="dep-hist-title">📋 LỊCH SỬ NẠP TIỀN GẦN ĐÂY:</div>
+                        <div class="dep-hist-list" id="dep-hist-list">
+                            <div class="dep-hist-item">
+                                <span>100,000 VNĐ (Ngân hàng BIDV)</span>
+                                <span class="status-success">Thành công</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL 3: ADMIN CONTROL PANEL -->
+        <div class="modal-overlay hidden" id="admin-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>👑 CONTROL PANEL DÀNH CHO ADMIN</h3>
+                    <button class="btn-close-modal" id="btn-close-admin">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="admin-group">
+                        <label>Tài khoản hiện tại:</label>
+                        <div class="admin-value highlight" id="admin-user-name">admin (Quyền tối cao)</div>
+                    </div>
+
+                    <div class="admin-group">
+                        <label>Chế độ Tiền Vô Hạn:</label>
+                        <div class="toggle-switch-wrapper">
+                            <input type="checkbox" id="toggle-unlimited-money" checked>
+                            <label for="toggle-unlimited-money" class="toggle-label"></label>
+                            <span id="unlimited-status-text" style="color:#00ff88; margin-left:10px; font-weight:bold;">ĐANG BẬT (∞ VNĐ)</span>
+                        </div>
+                    </div>
+
+                    <div class="admin-group">
+                        <label>🕹️ CAN THIỆP KẾT QUẢ VÁN TIẾP THEO:</label>
+                        <div class="admin-control-buttons">
+                            <button class="btn-admin-choice active" data-choice="auto" id="btn-cheat-auto">🎲 Ngẫu Nhiên</button>
+                            <button class="btn-admin-choice" data-choice="tai" id="btn-cheat-tai">🔴 Ép TÀI (11-18)</button>
+                            <button class="btn-admin-choice" data-choice="xiu" id="btn-cheat-xiu">⚫ Ép XỈU (1-10)</button>
+                        </div>
+                        <p class="admin-hint" id="cheat-hint-text">Kết quả ván tới: Hoàn toàn ngẫu nhiên.</p>
+                    </div>
+
+                    <div class="admin-group">
+                        <label>Thêm Tiền Thủ Công (VNĐ):</label>
+                        <div class="input-add-money">
+                            <input type="number" id="input-custom-money" placeholder="Nhập số tiền..." value="10000000">
+                            <button id="btn-add-money">THÊM TIỀN</button>
+                        </div>
+                    </div>
+
+                    <div class="admin-group">
+                        <button class="btn-reset-data" id="btn-reset-game">🔄 Đặt Lại Thống Kê Game</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Win Notification -->
+        <div class="win-toast hidden" id="win-toast">
+            <div class="toast-title">🎉 BẠN ĐÃ THẮNG! 🎉</div>
+            <div class="toast-amount" id="win-toast-amount">+1,000,000 VNĐ</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
